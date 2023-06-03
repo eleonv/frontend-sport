@@ -16,8 +16,8 @@ export class IntegrantesService {
         return this.http.get(this.baseUrl + "get-integrantes");
     }
 
-    generarGrupos(numGrupos: number, integrantes: any): Observable<any> {
-        return this.http.post(this.baseUrl + "generate-grupos", integrantes);
+    generarGrupos(requestApp: any): Observable<any> {
+        return this.http.post(this.baseUrl + "generate-grupos", requestApp);
     }
 
     saveAsistencia(integrantes: any): Observable<any> {

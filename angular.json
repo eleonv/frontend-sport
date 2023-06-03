@@ -27,12 +27,15 @@
             "inlineStyleLanguage": "sass",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/WEB-INF",
+              "src/gulpfile.js"
             ],
             "styles": [
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [],
+            "baseHref": "/sport/"
           },
           "configurations": {
             "production": {
