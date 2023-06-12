@@ -20,6 +20,10 @@ export class IntegrantesService {
         return this.http.post(this.baseUrl + "generate-grupos", requestApp);
     }
 
+    actualizarGrupos(requestApp: any): Observable<any> {
+        return this.http.post(this.baseUrl + "actualizar-grupos", requestApp);
+    }    
+
     saveAsistencia(integrantes: any): Observable<any> {
         return this.http.post(this.baseUrl + "save-asistencia", integrantes);
     }

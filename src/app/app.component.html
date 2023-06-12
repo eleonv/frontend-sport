@@ -2,116 +2,116 @@
     <h3>Generador de grupos de Basketball</h3>
     <hr class="my-3">
 
-    <strong>Paso 1: Registrar asistencia</strong>
+    <strong>Paso 1: Registrar asistencia</strong><br>
+    <ng-container *ngIf="estado==1">
+        <div class="form-check mb-2" >
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckAll" (change)="onCheckValue($event)">
+            <label class="form-check-label" for="flexCheckAll">
+                Marcar todos
+            </label>
+        </div>
+        <div class="container mb-3">
+            <ng-container *ngFor="let item of integrantes; let i=index">
+                <div class="form-check">
+                    <span>{{ i+1 + " " }}</span>
+                    <input class="form-check-input" type="checkbox" value="" id="check{{ item.idIntegrante }}"
+                        [checked]="item.asistencia" (change)="onCheckAsistencia($event, item.idIntegrante)">
+                    <label class="form-check-label" for="check{{ item.idIntegrante }}"> {{ item.nombre }}</label>
+                </div>
+                <!-- <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="check2" [checked]="item.asistencia">
+                    <label class="form-check-label" for="check2"> Persona 2</label>
+                </div> -->
+            </ng-container>
+        </div>
+    
+        <!--button type="button" class="btn btn-primary" (click)="onGuardarAsistencia()">Guardar asistencia</button-->
+        <!-- <button type="button" class="btn btn-light ms-2" (click)="onResetAsistencia()">Resetear asistencia</button> -->
+    
+        <hr class="my-3">
+    </ng-container>
 
-    <div class="form-check mb-2">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckAll" (change)="onCheckValue($event)">
-        <label class="form-check-label" for="flexCheckAll">
-            Marcar todos
-        </label>
-    </div>
-    <div class="container mb-3">
-        <ng-container *ngFor="let item of integrantes; let i=index">
-            <div class="form-check">
-                <span>{{ i+1 + "  " }}</span>
-                <input class="form-check-input" type="checkbox" value="" id="check{{ item.idIntegrante }}"
-                    [checked]="item.asistencia" (change)="onCheckAsistencia($event, item.idIntegrante)">
-                <label class="form-check-label" for="check{{ item.idIntegrante }}"> {{ item.nombre }}</label>
-            </div>
-            <!-- <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="check2" [checked]="item.asistencia">
-                <label class="form-check-label" for="check2"> Persona 2</label>
-            </div> -->
-        </ng-container>
-    </div>
-
-    <!--button type="button" class="btn btn-primary" (click)="onGuardarAsistencia()">Guardar asistencia</button-->
-    <!-- <button type="button" class="btn btn-light ms-2" (click)="onResetAsistencia()">Resetear asistencia</button> -->
-
-    <hr class="my-3">
-
-    <strong>Paso 2: Generar grupos de Basketball</strong>
-
-    <form>
+    <strong>Paso 2: Generar grupos de Basketball</strong><br>
+    <ng-container *ngIf="estado==1">
         <div class="row mb-3">
             <label for="inputEmail3" class="col-2 col-form-label">Grupos</label>
             <div class="col-2">
-                <input type="number" class="form-control" id="inputEmail3" value="3" [(ngModel)]="totalGrupos" name="totalGrupos">
+                <input type="number" class="form-control" id="inputEmail3" value="3" [(ngModel)]="totalGrupos"
+                    name="totalGrupos">
             </div>
-            <!-- <label for="inputEmail3" class="col-xs-3 col-sm-2 col-form-label">Grupos</label>
-            <div class="col-xs-1 col-sm-1  col-md-1">
-                <input type="text" class="form-control" id="inputEmail3" value="0">
-            </div> -->
         </div>
-        <!-- <div class="row mb-3">
-            <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-            <div class="col-sm-10">
-                <input type="password" class="form-control" id="inputPassword3">
-            </div>
-        </div> -->
-        <!-- <fieldset class="row mb-3">
-            <legend class="col-form-label col-2 pt-0">Algoritmos</legend>
-            <div class="col-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1"
-                        checked>
-                    <label class="form-check-label" for="gridRadios1">
-                        Algoritmo A
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                    <label class="form-check-label" for="gridRadios2">
-                        Algoritmo B
-                    </label>
-                </div>
-            </div>
-        </fieldset> -->
         <button type="button" class="btn btn-primary" (click)="onGenerarGrupos()">Generar</button>
-
+        <button type="button" class="btn btn-primary ms-2" (click)="onConsolidadGrupos()">Consolidar</button>
+    
         <ol class="list-group mt-3">
             <li class="list-group-item px-0" *ngFor="let itemGrupo of grupos; let i=index">
                 <div class="ms-2">
-                    <div class="fw-bold">{{itemGrupo.nombre + "  (" + itemGrupo.totalPeso + ")"}}</div>
+                    <div class="fw-bold">{{itemGrupo.nombre + " (" + itemGrupo.totalPeso + ")"}} <div class="d-inline-flex p-2 {{itemGrupo.classColor}}">{{itemGrupo.nombreColor}}</div></div>
                     <ol class="">
                         <li class="" *ngFor="let itemIntegra of itemGrupo.integrantes">
-                            {{"["+ itemIntegra.sexo +"]" + "("+itemIntegra.peso + ")  " + itemIntegra.nombre}}
+                            {{"["+ itemIntegra.sexo +"]" + "("+itemIntegra.peso + ") " + itemIntegra.nombre}}
                         </li>
                     </ol>
                 </div>
             </li>
         </ol>
+    
+        <hr class="my-3">
+    </ng-container>
 
-        <!-- <ol class="list-group mt-3">
-            <li class="list-group-item px-0">
+    
+
+    
+
+    <strong *ngIf="estado==2">Paso 3: Actualizar grupos de Basketball</strong><br>
+    <ng-container *ngIf="estado==2">
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckAll" (change)="onCheckValue($event)">
+            <label class="form-check-label" for="flexCheckAll">
+                Marcar todos
+            </label>
+        </div>
+
+        <div class="container mb-3">
+            <ng-container *ngFor="let item of integrantesTardones; let i=index">
+                <div class="form-check">
+                    <span>{{ i+1 + " " }}</span>
+                    <input class="form-check-input" type="checkbox" value="" id="check{{ item.idIntegrante }}"
+                        [checked]="item.asistencia" (change)="onCheckAsistencia($event, item.idIntegrante)">
+                    <label class="form-check-label" for="check{{ item.idIntegrante }}"> {{ item.nombre }}</label>
+                </div>
+                <!-- <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="check2" [checked]="item.asistencia">
+                    <label class="form-check-label" for="check2"> Persona 2</label>
+                </div> -->
+            </ng-container>
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="onActualizarGrupos()">Actualizar grupos</button>
+        <ol class="list-group mt-3" >
+            <li class="list-group-item px-0" *ngFor="let itemGrupo of gruposAjustado; let i=index">
                 <div class="ms-2">
-                    <div class="fw-bold">Gruppo A</div>
+                    <div class="fw-bold">{{itemGrupo.nombre + " (" + itemGrupo.totalPeso + ")"}} <div class="d-inline-flex p-2 {{itemGrupo.classColor}}">{{itemGrupo.nombreColor}}</div></div>
                     <ol class="">
-                        <li class="">Persona 1</li>
-                        <li class="">Persona 2</li>
-                        <li class="">Persona 3</li>
+                        <li class="" *ngFor="let itemIntegra of itemGrupo.integrantes">
+                            {{"["+ itemIntegra.sexo +"]" + "("+itemIntegra.peso + ") " + itemIntegra.nombre}}
+                        </li>
                     </ol>
                 </div>
             </li>
-            <li class="list-group-item px-0">
-                <div class="ms-2">
-                    <div class="fw-bold">Gruppo B</div>
-                    <ol class="">
-                        <li class="">Persona 4</li>
-                        <li class="">Persona 5</li>
-                    </ol>
-                </div>
-            </li>
-            <li class="list-group-item px-0">
-                <div class="ms-2">
-                    <div class="fw-bold">Gruppo C</div>
-                    <ol class="">
-                        <li class="">Sin asignar</li>
-                    </ol>
-                </div>                
-            </li>
-        </ol> -->
-    </form>
+        </ol>    
+
+        <br>
+        <p>Jugadores sin equipo</p>
+        <ng-container *ngFor="let item of sinquipo; let i=index">
+            <div class="form-check">
+                <span>{{ i+1 + " " }}</span>
+                <label class="form-check-label" for="check{{ item.idIntegrante }}"> {{ item.nombre }}</label>
+            </div>
+        </ng-container>
+    </ng-container>
+
+    
 
 </main>
 

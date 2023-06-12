@@ -13,6 +13,7 @@ export class AppComponent {
     [x: string]: any;
     _constante = Constantes;
     title = 'frontend-sport';
+    estado: number = 1;
 
     /*integrantes: any = [
         { idIntegrante: 1, nombre: "Persona 1", asistencia: true },
@@ -21,9 +22,12 @@ export class AppComponent {
         { idIntegrante: 4, nombre: "Persona 4", asistencia: false }
     ];*/
 
-    totalGrupos: number = 2;
-    integrantes: any =  [];
+    totalGrupos: number = 3;
+    integrantes: any = [];
+    integrantesTardones: any = [];
+    sinquipo: any = [];
     grupos: any = [];
+    gruposAjustado: any = [];
 
     /*grupostmp: any = [
         {
@@ -51,39 +55,39 @@ export class AppComponent {
         this.cargarInicial();
     }
 
-    onCheckAsistencia(event: any, idIntegrante:number) {
+    onCheckAsistencia(event: any, idIntegrante: number) {
         console.log("sasae", event);
         let checkvalue = event.target.checked;
         console.log(checkvalue, idIntegrante);
 
-        this.integrantes.forEach((x: any)=>{
-            if(x.idIntegrante == idIntegrante) {
+        this.integrantes.forEach((x: any) => {
+            if (x.idIntegrante == idIntegrante) {
                 x.asistencia = checkvalue;
             }
         });
-        
-        
+
+
     }
 
     cargarInicial() {
         this.integrantesService.getIntegrantes()
-        .pipe(take(1))
-        .subscribe((response: any) => {
-            if (response.status == this._constante.RESPONSE_OK) {
-                console.log("response", response);
-                this.integrantes = response.data;
-            } else {
-                //this.toastr.warning(response.message, 'Advertencia');
-            }
-            //this.globals.desactivarLoading();
-        });        
+            .pipe(take(1))
+            .subscribe((response: any) => {
+                if (response.status == this._constante.RESPONSE_OK) {
+                    console.log("response", response);
+                    this.integrantes = response.data;
+                } else {
+                    //this.toastr.warning(response.message, 'Advertencia');
+                }
+                //this.globals.desactivarLoading();
+            });
     }
 
 
     onGuardarAsistencia() {
         //console.log("...guardando asistencia");
         console.log(this.integrantes);
-        
+
     }
 
     onCheckValue(event: any) {
@@ -105,18 +109,48 @@ export class AppComponent {
         };
 
         this.integrantesService.generarGrupos(requestApp)
-        .pipe(take(1))
-        .subscribe((response: any) => {
-            if (response.status == this._constante.RESPONSE_OK) {
-                console.log("response", response);
-                this.grupos = response.data;
-            } else {
-                //this.toastr.warning(response.message, 'Advertencia');
-            }
-            //this.globals.desactivarLoading();
-        });
+            .pipe(take(1))
+            .subscribe((response: any) => {
+                if (response.status == this._constante.RESPONSE_OK) {
+                    console.log("response", response);
+                    this.grupos = response.data;
+                } else {
+                    //this.toastr.warning(response.message, 'Advertencia');
+                }
+                //this.globals.desactivarLoading();
+            });
 
         //console.log("...generar grupos");
         //this.grupos = this.grupostmp;
+    }
+
+    onConsolidadGrupos() {
+        this.estado = 2;
+        this.integrantesTardones = this.integrantes.filter((x: any) => x.asistencia === false);
+        this.gruposAjustado = this.grupos.filter((x: any) => x.numColor > 0);
+
+    }
+
+    onActualizarGrupos() {
+        if (!this.totalGrupos) return;
+
+        let requestApp = {
+            participantes: this.integrantesTardones,
+            grupos: this.grupos
+        };
+
+        this.integrantesService.actualizarGrupos(requestApp)
+            .pipe(take(1))
+            .subscribe((response: any) => {
+                if (response.status == this._constante.RESPONSE_OK) {
+                    console.log("response", response);
+                    this.gruposAjustado = response.data.grupos;
+                    this.sinquipo = response.data.participantes;
+                } else {
+                    //this.toastr.warning(response.message, 'Advertencia');
+                }
+                //this.globals.desactivarLoading();
+            });
+
     }
 }
